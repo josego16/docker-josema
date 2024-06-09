@@ -1,0 +1,67 @@
+version: "3.1"
+
+services:
+  #Servicio de la base de datos mysql.
+  db-dbuser:
+    image: mysql:8.0
+    platform: linux/amd64
+    ports:
+      - "3307:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    
+    #usuario josema/josema, administracion root/josema
+    environment:
+      MYSQL_DATABASE: dbuser
+      MYSQL_USER: josema
+      MYSQL_PASSWORD: josema
+      MYSQL_ROOT_PASSWORD: josema
+    
+    # Persistimos en dump la inicialización de la base de datos. Monta /dump dentro del contenedor en /docker-entrypoint-initdb.d
+    # Persistimos en conf las configuraciones personalizadas de MySQL. Monta /conf dentro del contenedor en /etc/mysql/conf.d
+    # Persistimos en persistent los datos de la base de datos
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - ./conf:/etc/mysql/conf.d
+      - persistent:/var/lib/mysql
+    networks:
+      - default
+  
+  #Servicio apache
+  www-dbuser:
+    build: .
+    
+    ports:
+      - "8080:80"
+    
+    #Montamos www en /var/www/html. Aquí accedemos directamente a los ficheros.    
+    volumes:
+      - ./www:/var/www/html
+    
+    #El sercicio http se inica después del de mysql    
+    depends_on:
+      - db-dbuser
+    networks:
+      - default
+  
+  
+  #Servicio phpmyadmin
+  phpmyadmin-dbuser:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/amd64
+    
+    #El sercicio http se inica después del de mysql
+    depends_on:
+      - db-dbuser
+    
+    ports:
+      - "8008:80"
+    
+    #Utilizamos PMA_HOST para especifigar a qué servicio debe conectarse, el de mysql. Sabe como encontrar mysql.
+    #Nos conectaremos a mysql con el usuario root/josema
+    environment:
+      PMA_HOST: db-dbuser
+      PMA_USER: root
+      PMA_PASSWORD: josema
+
+volumes:
+  persistent:
