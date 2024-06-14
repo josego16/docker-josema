@@ -44,10 +44,10 @@ CREATE TABLE `log`
 CREATE TABLE `usuarios`
 (
     `id`         int(11)      NOT NULL COMMENT 'clave principal',
+    `username`   varchar(200) NOT NULL,
     `email`      varchar(150) NOT NULL,
+    `phone`      varchar(12)  NOT NULL,
     `password`   varchar(240) NOT NULL,
-    `telefono`   varchar(12)  NOT NULL,
-    `nombre`     varchar(200) NOT NULL,
     `imagen`     varchar(200) DEFAULT NULL,
     `disponible` tinyint(1)   NOT NULL,
     `token`      varchar(240) DEFAULT NULL,
@@ -55,17 +55,8 @@ CREATE TABLE `usuarios`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='tabla de usuarios';
 
-INSERT INTO usuarios (id, email, password, telefono, nombre, imagen, disponible, token, admin)
-VALUES (1, 'juan.perez@example.com', 'password123', '654123456', 'Juan Pérez', null, 1, NULL, 0),
-    (2, 'aria.rodriguez@example.com', 'contraseña123', '912345678', 'María Rodríguez', null, 1, NULL, 0),
-    (3, 'luis.gonzalez@example.com', 'luis1234', '678901234', 'Luis González', null, 1, NULL, 0),
-    (4, 'ana.sanchez@example.com', 'ana123', '934567890', 'Ana Sánchez', null, 1, NULL, 0),
-    (5, 'admin@example.com', 'admin123', '911111111', 'Administrador', null, 1, NULL, 1),
-    (6, 'pedro.martinez@example.com', 'pedro123', '965432109', 'Pedro Martínez', null, 1, NULL, 0),
-    (7, 'ofia.gomez@example.com', 'ofia123', '987654321', 'Sofía Gómez', null, 1, NULL, 0),
-    (8, 'carlos.hernandez@example.com', 'carlos123', '756382194', 'Carlos Hernández', null, 1, NULL, 0),
-    (9, 'isabel.diaz@example.com', 'isabel123', '823456789', 'Isabel Díaz', null, 1, NULL, 0),
-    (10, 'fernando.garcia@example.com', 'fernando123', '654987321', 'Fernando García', null, 1, NULL, 0);
+INSERT INTO usuarios (id, username, email, phone, password, imagen, disponible, token, admin)
+VALUES (1, 'jgomlin', 'josema1@gmail.com', '111222333', 'J0GrYIo0m1FK9Qxi4RZqjbhVTTMXqwPA5UWY2o5q4dGu6hDUNiVqXcXsgZN1hX/1OZONjve9B3ryXJKHIKv2FQ', null, 1, NULL, 0);
 
 --
 -- Índices para tablas volcadas
