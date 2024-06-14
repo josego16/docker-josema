@@ -4,17 +4,7 @@ namespace Firebase\JWT;
 
 use DomainException;
 use InvalidArgumentException;
-use OpenSSLAsymmetricKey;
 use UnexpectedValueException;
-use function base64_encode;
-use function chr;
-use function chunk_split;
-use function count;
-use function ltrim;
-use function openssl_error_string;
-use function openssl_pkey_get_public;
-use function pack;
-use function strlen;
 
 /**
  * JSON Web Key implementation, based on this spec:
@@ -55,13 +45,13 @@ class JWK
         }
 
         foreach ($jwks['keys'] as $k => $v) {
-            $kid = $v['kid'] ?? $k;
+            $kid = isset($v['kid']) ? $v['kid'] : $k;
             if ($key = self::parseKey($v)) {
                 $keys[$kid] = $key;
             }
         }
 
-        if (0 === count($keys)) {
+        if (0 === \count($keys)) {
             throw new UnexpectedValueException('No supported algorithms found in JWK Set');
         }
 
@@ -73,7 +63,7 @@ class JWK
      *
      * @param array $jwk An individual JWK
      *
-     * @return OpenSSLAsymmetricKey|void An associative array that represents the key
+     * @return resource|array An associative array that represents the key
      *
      * @throws InvalidArgumentException     Provided JWK is empty
      * @throws UnexpectedValueException     Provided JWK was invalid
@@ -100,10 +90,10 @@ class JWK
                 }
 
                 $pem = self::createPemFromModulusAndExponent($jwk['n'], $jwk['e']);
-                $publicKey = openssl_pkey_get_public($pem);
+                $publicKey = \openssl_pkey_get_public($pem);
                 if (false === $publicKey) {
                     throw new DomainException(
-                        'OpenSSL error: ' . openssl_error_string()
+                        'OpenSSL error: ' . \openssl_error_string()
                     );
                 }
                 return $publicKey;
@@ -129,33 +119,35 @@ class JWK
         $publicExponent = JWT::urlsafeB64Decode($e);
 
         $components = array(
-            'modulus' => pack('Ca*a*', 2, self::encodeLength(strlen($modulus)), $modulus),
-            'publicExponent' => pack('Ca*a*', 2, self::encodeLength(strlen($publicExponent)), $publicExponent)
+            'modulus' => \pack('Ca*a*', 2, self::encodeLength(\strlen($modulus)), $modulus),
+            'publicExponent' => \pack('Ca*a*', 2, self::encodeLength(\strlen($publicExponent)), $publicExponent)
         );
 
-        $rsaPublicKey = pack(
+        $rsaPublicKey = \pack(
             'Ca*a*a*',
             48,
-            self::encodeLength(strlen($components['modulus']) + strlen($components['publicExponent'])),
+            self::encodeLength(\strlen($components['modulus']) + \strlen($components['publicExponent'])),
             $components['modulus'],
             $components['publicExponent']
         );
 
         // sequence(oid(1.2.840.113549.1.1.1), null)) = rsaEncryption.
-        $rsaOID = pack('H*', '300d06092a864886f70d0101010500'); // hex version of MA0GCSqGSIb3DQEBAQUA
-        $rsaPublicKey = chr(0) . $rsaPublicKey;
-        $rsaPublicKey = chr(3) . self::encodeLength(strlen($rsaPublicKey)) . $rsaPublicKey;
+        $rsaOID = \pack('H*', '300d06092a864886f70d0101010500'); // hex version of MA0GCSqGSIb3DQEBAQUA
+        $rsaPublicKey = \chr(0) . $rsaPublicKey;
+        $rsaPublicKey = \chr(3) . self::encodeLength(\strlen($rsaPublicKey)) . $rsaPublicKey;
 
-        $rsaPublicKey = pack(
+        $rsaPublicKey = \pack(
             'Ca*a*',
             48,
-            self::encodeLength(strlen($rsaOID . $rsaPublicKey)),
+            self::encodeLength(\strlen($rsaOID . $rsaPublicKey)),
             $rsaOID . $rsaPublicKey
         );
 
-        return "-----BEGIN PUBLIC KEY-----\r\n" .
-            chunk_split(base64_encode($rsaPublicKey), 64) .
+        $rsaPublicKey = "-----BEGIN PUBLIC KEY-----\r\n" .
+            \chunk_split(\base64_encode($rsaPublicKey), 64) .
             '-----END PUBLIC KEY-----';
+
+        return $rsaPublicKey;
     }
 
     /**
@@ -170,10 +162,11 @@ class JWK
     private static function encodeLength($length)
     {
         if ($length <= 0x7F) {
-            return chr($length);
+            return \chr($length);
         }
-        $temp = ltrim(pack('N', $length), chr(0));
 
-        return pack('Ca*', 0x80 | strlen($temp), $temp);
+        $temp = \ltrim(\pack('N', $length), \chr(0));
+
+        return \pack('Ca*', 0x80 | \strlen($temp), $temp);
     }
 }

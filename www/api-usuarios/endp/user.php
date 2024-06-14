@@ -1,31 +1,41 @@
 <?php
-
-use models\authModel;
-use models\user;
-
 require_once '../models/user.php';
 require_once '../models/authModel.php';
 
-$auth = new authModel();
+$auth = new Auth();
 $auth->verify_autentication_by_token(); //verificamos si está logueado
-$user = new user();  //Creamos un objeto User
+$user = new User();  //Creamos un objeto User 
 
-if (!$auth->is_admin()) {
-    http_response_code(403); // Forbidden
-    echo 'Acceso denegado';
-    exit;
-}
 
-switch ($_SERVER['REQUEST_METHOD']) {
+switch ($_SERVER['REQUEST_METHOD']){
+
     case 'GET':
+
         $params = $_GET; //obtenemos los parámetros pasados por get.
+       // echo "Entramos a devolver todos los alumnos"; exit;
         $user->get_users($params);
         break;
+
     case 'POST':
-        $params = $_POST; //obtenemos los parámetros pasados por post.
-        $user->insert_user($params);
+        /*
+        Sólo lo puede hacer el administrador
+        */
         break;
-    case 'DELETE':
+
     case 'PUT':
+
+        /*
+        Sólo lo puede hacer el administrador
+        */
         break;
+
+    case 'DELETE':
+         /*
+        Sólo lo puede hacer el administrador
+        */
+        break;
+
 }
+
+
+?>

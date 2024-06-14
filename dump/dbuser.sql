@@ -41,22 +41,20 @@ CREATE TABLE `log`
 -- Estructura de tabla para la tabla `usuarios`
 --
 
+
 CREATE TABLE `usuarios`
 (
     `id`         int(11)      NOT NULL COMMENT 'clave principal',
-    `username`   varchar(200) NOT NULL,
     `email`      varchar(150) NOT NULL,
-    `phone`      varchar(12)  NOT NULL,
     `password`   varchar(240) NOT NULL,
+    `telefono`   varchar(12)  NOT NULL,
+    `nombre`     varchar(200) NOT NULL,
     `imagen`     varchar(200) DEFAULT NULL,
     `disponible` tinyint(1)   NOT NULL,
     `token`      varchar(240) DEFAULT NULL,
     `admin`      boolean      DEFAULT 0
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT ='tabla de usuarios';
-
-INSERT INTO usuarios (id, username, email, phone, password, imagen, disponible, token, admin)
-VALUES (1, 'jgomlin', 'josema1@gmail.com', '111222333', 'J0GrYIo0m1FK9Qxi4RZqjbhVTTMXqwPA5UWY2o5q4dGu6hDUNiVqXcXsgZN1hX/1OZONjve9B3ryXJKHIKv2FQ', null, 1, NULL, 0);
 
 --
 -- Índices para tablas volcadas
