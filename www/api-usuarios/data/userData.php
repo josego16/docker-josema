@@ -19,7 +19,6 @@ class userData
             echo 'Error de conexión a la base de datos';
             exit;
         }
-        //echo "Conectado"; exit;
     }
 
     /*

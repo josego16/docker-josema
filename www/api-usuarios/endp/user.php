@@ -25,12 +25,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $params = $_POST; //obtenemos los parámetros pasados por post.
         $user->insert_user($params);
         break;
-    case 'PUT':
-        $params = $_POST; //obtenemos los parámetros pasados por post.
-        $user->update_user($params);
-        break;
     case 'DELETE':
-        $id = $_GET['id']; //obtenemos el id del usuario a eliminar.
-        $user->delete_user($id);
+    case 'PUT':
         break;
 }

@@ -12,7 +12,6 @@ class authData{
     public function __construct()
     {
         $par = DB_HOST . ", " . DB_USER . ", " . DB_PASSWORD . ", " . DB_NAME . ", " . DB_PORT;
-        //echo $par;exit;
         $this->connection = new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
         if ($this->connection->connect_errno) {
             echo 'Error de conexión a la base de datos';
@@ -25,7 +24,6 @@ class authData{
     */
     public function login_db($email, $password)
     {
-        //
         $stmt = $this->connection->prepare("SELECT id, nombre, email FROM " . DB_TABLE_USER . " WHERE email = ? AND password = ?");
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();

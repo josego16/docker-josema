@@ -40,7 +40,6 @@ class user extends userData
             $password_enc = hash('sha256', $params['password']);
             $params['password'] = $password_enc;
             $params['disponible'] = 1;
-            //  echo "Password codificada ". $params['password'];exit;
             $id_new_user = parent::insert_user_db($params);
             if ($id_new_user > 0)
                 response::result(CODE_REGISTER_OK, response::prepared_result_insert('ok', $id_new_user));
@@ -49,17 +48,8 @@ class user extends userData
         }
     }
 
-    public function delete_user()
-    {
-    }
-
-    public function update_user()
-    {
-    }
-
     private function validate_requered_fields_to_insert($data)
     {
-        //   echo "todo bien";exit;
         if (empty($data['email'])) {
             response::result(CODE_RESPONSE_NO_LOGIN, response::prepared_result('error', DETAILS_NO_EMAIL_FIELD));
         }
