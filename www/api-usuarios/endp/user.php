@@ -16,20 +16,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $user->get_users($params);
         break;
     case 'POST':
-
-        /**
-         * Solo puede acceder el administrador
-         */
-
         $params = $_POST; //obtenemos los parámetros pasados por post.
         $user->insert_user($params);
         break;
     case 'DELETE':
     case 'PUT':
-
-        /**
-         * Solo puede acceder el administrador
-         */
-
         break;
 }
