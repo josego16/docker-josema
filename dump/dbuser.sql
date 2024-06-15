@@ -21,8 +21,6 @@ SET time_zone = "+00:00";
 -- Base de datos: `dbuser`
 --
 
--- --------------------------------------------------------
-
 --
 -- Estructura de tabla para la tabla `log`
 --
@@ -34,17 +32,14 @@ CREATE TABLE `log`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4;
 
--- --------------------------------------------------------
-
 --
 --
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-
 CREATE TABLE `usuarios`
 (
-    `id`         int(11)      NOT NULL COMMENT 'clave principal',
+    `id`         int(11)      NOT NULL,
     `email`      varchar(150) NOT NULL,
     `password`   varchar(240) NOT NULL,
     `telefono`   varchar(12)  NOT NULL,
@@ -54,11 +49,7 @@ CREATE TABLE `usuarios`
     `token`      varchar(240) DEFAULT NULL,
     `admin`      boolean      DEFAULT 0
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4 COMMENT ='tabla de usuarios';
-
---
--- Índices para tablas volcadas
---
+  DEFAULT CHARSET = utf8mb4;
 
 --
 -- Indices de la tabla `log`
@@ -73,10 +64,6 @@ ALTER TABLE `usuarios`
     ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
 -- AUTO_INCREMENT de la tabla `log`
 --
 ALTER TABLE `log`
@@ -87,7 +74,7 @@ ALTER TABLE `log`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'clave principal',
+    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 12;
 COMMIT;
 

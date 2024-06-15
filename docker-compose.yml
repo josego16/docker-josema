@@ -42,8 +42,7 @@ services:
       - db-dbuser
     networks:
       - default
-  
-  
+
   #Servicio phpmyadmin
   phpmyadmin-dbuser:
     image: phpmyadmin/phpmyadmin

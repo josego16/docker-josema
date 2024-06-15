@@ -1,68 +1,77 @@
 <?php
 
-/*
-función que devuelve la respuesta al cliente en:
-1.- respuesta en formato json
-2.- establece el estado de la respuesta con code
-3.- codificamos $response como array asociativo en json.
-4.- Detiene la ejecución del script después de mandarlo.
-*/
-class Response{
+/**
+ * Función que devuelve la respuesta al cliente en:
+ * respuesta en formato json.
+ * establece el estado de la respuesta con code.
+ * codificamos $response como array asociativo en json.
+ * Detiene la ejecución del script después de mandarlo.
+ */
 
-    public static function result($code, $response){
+namespace responses;
+class response
+{
+
+    /**
+     * @param $code
+     * @param $response
+     * @return void
+     */
+    public static function result($code, $response)
+    {
         header('Content-type: application/json');
         http_response_code($code);
         echo json_encode($response);
         exit;
     }
 
-
-
-    public static function prepared_result($result, $detail){
-        $response = array(
-            'result' => $result,
-            'detail' => $detail
-        );
-        return $response;
+    /**
+     * @param $result
+     * @param $detail
+     * @return array
+     */
+    public static function prepared_result($result, $detail)
+    {
+        return array('result' => $result, 'detail' => $detail);
     }
 
-    public static function prepared_result_token($result, $token){
-        $response = array(
-            'result' => $result,
-            'token' => $token
-        );
-        return $response;
+    /**
+     * @param $result
+     * @param $token
+     * @return array
+     */
+    public static function prepared_result_token($result, $token)
+    {
+        return array('result' => $result, 'token' => $token);
     }
 
-    public static function prepared_result_insert($result, $id){
-        $response = array(
-            'result' => $result,
-            'insert_id' => $id
-        );
-        return $response;
+    /**
+     * @param $result
+     * @param $id
+     * @return array
+     */
+    public static function prepared_result_insert($result, $id)
+    {
+        return array('result' => $result, 'insert_id' => $id);
     }
 
-
-    public static function result_alumns($result, $alumns){
-        $response = array(
-            'result' => $result,
-            'usuarios' => $alumns
-        );
-
-        return $response;
+    /**
+     * @param $result
+     * @param $alumns
+     * @return array
+     */
+    public static function result_alumns($result, $alumns)
+    {
+        return array('result' => $result, 'usuarios' => $alumns);
     }
 
-
-    public static function build_token($id, $email){
-        $data_token = array(
-            'iat' => time(),
-            'data' => array(
-                'id' => $id,
-                'email' => $email
-            )
-        );
-     //   echo $id." ".$data_token['data']['id']." ".$data_token['data']['email']; exit;
-        return $data_token;
+    /**
+     * @param $id
+     * @param $email
+     * @return array
+     */
+    public static function build_token($id, $email)
+    {
+        return array('iat' => time(), 'data' => array('id' => $id, 'email' => $email));
     }
 }
-?>
