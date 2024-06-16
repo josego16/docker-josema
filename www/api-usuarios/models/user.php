@@ -26,7 +26,6 @@ class user extends userData
      */
     public function get_users($params)
     {
-
         $users = parent::get_users_db($params);
         response::result(CODE_DATA_OK, response::result_alumns('Ok', $users));
     }
@@ -52,21 +51,34 @@ class user extends userData
 
     /**
      * @param $data
-     * @return true
+     * @return boolean
      */
     private function validate_requered_fields_to_insert($data)
     {
-        if (empty($data['email'])) {
-            response::result(CODE_RESPONSE_NO_LOGIN, response::prepared_result('error', DETAILS_NO_EMAIL_FIELD));
+        if (!isset($data['email']) || empty($data['email'])) {
+            Response::result(CODE_RESPONSE_NO_LOGIN, Response::prepared_result('error', DETAILS_NO_EMAIL_FIELD));
+            return false;
         }
 
-        if (empty($data['email'])) {
-            response::result(CODE_RESPONSE_NO_LOGIN, response::prepared_result('error', DETAILS_NO_EMAIL_FIELD));
+        if (!isset($data['password']) || empty($data['password'])) {
+            Response::result(CODE_RESPONSE_NO_LOGIN, Response::prepared_result('error', DETAILS_NO_PASSWORD_FIELD));
+            return false;
         }
 
-        if (empty($data['password'])) {
-            response::result(CODE_RESPONSE_NO_LOGIN, response::prepared_result('error', DETAILS_NO_PASSWORD_FIELD));
-        }
         return true;
+    }
+
+    /**
+     * Método que elimina un usuario
+     * @param $id
+     * @return void
+     */
+    public function delete_user($id)
+    {
+        $deleted = parent::delete_user_db($id);
+        if ($deleted)
+            response::result(CODE_DELETE_OK, response::prepared_result_delete('ok', $id));
+        else
+            response::result(CODE_ERROR_DELETE, response::prepared_result_delete(DETAILS_ERROR_DELETE, $id));
     }
 }

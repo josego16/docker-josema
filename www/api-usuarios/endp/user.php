@@ -16,10 +16,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $user->get_users($params);
         break;
     case 'POST':
-        $params = $_POST; //obtenemos los parámetros pasados por post.
+        $input = file_get_contents('php://input');
+        $params = json_decode($input, true);
         $user->insert_user($params);
         break;
     case 'DELETE':
+        $id = $_GET['id']; //obtenemos el id del usuario a eliminar
+        $user->delete_user($id);
+        break;
     case 'PUT':
         break;
 }

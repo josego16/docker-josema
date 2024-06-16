@@ -19,6 +19,12 @@ const CODE_RESPONSE_ERROR_LOGIN = 403; // Error al iniciar sesión
 const CODE_RESPONSE_ERROR_PERMISSION = 403; // No se tiene permiso para realizar la acción
 const CODE_LOGIN_OK = 201; // Inicio de sesión exitoso
 const CODE_REGISTER_OK = 202; // Registro exitoso
+const CODE_UPDATE_OK = 204; // Actualización exitosa
+const CODE_ERROR_UPDATE = 400; // Error al actualizar
+const CODE_DELETE_OK = 205; // Eliminación exitosa
+const CODE_ERROR_DELETE = 400; // Error al eliminar
+const DETAILS_ERROR_UPDATE = 'Ha ocurrido un error al actualizar los datos'; // Detalle de error al actualizar
+const DETAILS_ERROR_DELETE = 'Ha ocurrido un error al eliminar los datos'; // Detalle de error al eliminar
 const CODE_ERROR_REGISTER = 403; // Error al registrar usuario
 const CODE_DATA_OK = 203; // Datos devueltos correctamente
 
@@ -31,5 +37,6 @@ const DETAILS_ERROR_REGISTER = 'ha ocurrido algún error al registrar los datos'
 
 // Detalles de errores de campos
 const DETAILS_NO_EMAIL_FIELD = 'El campo email es obligatorio'; // Error al no proporcionar campo email
+const DETAILS_NO_ID_FIELD = 'El campo id es obligatorio'; // Error al no proporcionar campo id
 const DETAILS_NO_NAME_FIELD = 'El campo nombre es obligatorio'; // Error al no proporcionar campo nombre
 const DETAILS_NO_PASSWORD_FIELD = 'El campo password es obligatorio'; // Error al no proporcionar campo password

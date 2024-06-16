@@ -71,4 +71,42 @@ class userData
             return 0;
         }
     }
+
+    public function update_user_db($id_user, $params)
+    {
+        $fields = array();
+        foreach ($params as $key => $value) {
+            $fields[] = "$key = ?";
+        }
+        $fields_str = implode(', ', $fields);
+
+        $query = "UPDATE " . DB_TABLE_USER . " SET $fields_str WHERE id = ?";
+        $stmt = $this->connection->prepare($query);
+
+        $values = array_values($params);
+        $values[] = $id_user;
+
+        $stmt->bind_param(str_repeat('s', count($values)), ...$values);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function delete_user_db($id)
+    {
+        $query = "DELETE FROM " . DB_TABLE_USER . " WHERE id = ?";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

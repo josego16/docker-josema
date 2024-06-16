@@ -74,4 +74,24 @@ class response
     {
         return array('iat' => time(), 'data' => array('id' => $id, 'email' => $email));
     }
+
+    /**
+     * @param $result
+     * @param $id
+     * @return array
+     */
+    public static function prepared_result_update($result, $id)
+    {
+        return array('result' => $result, 'insert_id' => $id);
+    }
+
+    /**
+     * @param $result
+     * @param $id
+     * @return array
+     */
+    public static function prepared_result_delete($result, $id)
+    {
+        return array('result' => $result, 'insert_id' => $id);
+    }
 }
